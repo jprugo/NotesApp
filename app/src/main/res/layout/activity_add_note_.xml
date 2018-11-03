@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:orientation="vertical"
+    tools:context=".AddNote_Activity"
+    android:weightSum="5"
+    >
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Titulo"
+
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="33dp"
+        tools:layout_editor_absoluteY="42dp" />
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/edtext_title"
+
+        />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Descripción"
+        android:layout_below="@id/edtext_title"
+
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="33dp"
+        tools:layout_editor_absoluteY="42dp" />
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+
+        android:id="@+id/edtext_body"
+
+
+        />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Guardar"
+            android:id="@+id/savenote_btn"
+            android:backgroundTint="@android:color/secondary_text_dark_nodisable"
+            />
+</LinearLayout>
