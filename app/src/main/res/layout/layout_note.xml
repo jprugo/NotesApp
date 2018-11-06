@@ -25,4 +25,17 @@
         android:text="Cuerpo"
         android:textSize="14sp" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textview_note_body"
+        android:layout_alignEnd="@+id/textview_note_title"
+        android:layout_alignRight="@+id/textview_note_title"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        android:padding="10dp"
+        android:src="@drawable/ic_delete"
+        app:fabSize="mini" />
+
 </RelativeLayout>

@@ -43,8 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-
-        if(mAuth!=null){// quiere decir que esta logueado
+        if(mAuth.getCurrentUser()!=null){// quiere decir que esta logueado
 
             Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

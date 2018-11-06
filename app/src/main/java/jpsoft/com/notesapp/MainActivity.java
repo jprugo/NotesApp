@@ -8,9 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -45,26 +47,35 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
         RecyclerViewNotesList.setLayoutManager(llm);
 
-        mAuth= FirebaseAuth.getInstance();
-        mNotes_Database=FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("Notes");
+        try{
 
-        mNotes_Database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Nota n = data.getValue(Nota.class);
-                    ListaNotas.add(n);
+            mAuth= FirebaseAuth.getInstance();
+            mNotes_Database=FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("Notes");
+
+            mNotes_Database.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    ListaNotas=new ArrayList<>();// con esto se soluciona lo duplicado
+                    for (DataSnapshot data : dataSnapshot.getChildren()) {
+                        Nota n = data.getValue(Nota.class);
+                        ListaNotas.add(n);
+                    }
+                    AdaptadorNotas adapter = new AdaptadorNotas(ListaNotas);
+                    RecyclerViewNotesList.setAdapter(adapter);
+
                 }
-                AdaptadorNotas adapter = new AdaptadorNotas(ListaNotas);
-                RecyclerViewNotesList.setAdapter(adapter);
 
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
 
-            }
-        });
+        }
+        catch(Exception e){
+            Log.i("Error",e.toString());
+
+        }
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -80,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -92,11 +103,15 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        super.onOptionsItemSelected(item);
+        if (item.getItemId()==R.id.main_logout_btn){
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(getApplicationContext(), "Cerrado", Toast.LENGTH_SHORT).show();
+            Intent mainIntent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(mainIntent);
         }
+        return true;
 
-        return super.onOptionsItemSelected(item);
+
     }
 }
